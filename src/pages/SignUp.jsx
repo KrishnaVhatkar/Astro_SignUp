@@ -120,8 +120,10 @@ const SignUp = () => {
           </div>
           <div>
             <div className="flex items-center justify-between">
-              
-               <input type="checkbox"/><span>Remember Me</span>
+              <div id='checkbox'>
+
+               <input id='check-box' type="checkbox"/><span id='remember'>Remember Me</span>
+              </div>
                <div className="div">
 
               <a href="#">Forgot Password?</a>
