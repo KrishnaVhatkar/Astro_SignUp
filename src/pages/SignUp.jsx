@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import {BrowserRouter,Routes,Route} from 'react-router-dom';
+// import {Link} from 'react-router-dom';
 import { supabase } from "./client";
 import './styles.css';
 import front from './front.jpg';
@@ -39,7 +39,7 @@ const SignUp = () => {
         <img
           className=" h-10 w-auto"
           src="https://magicainew.codeshastra.dev/assets/img/logo/magicAI-logo.svg"
-          alt="Your Company"
+          alt="Company Logo"
           />
         <h1 className="mt-10 text-2xl font-bold leading-9 tracking-tight text-gray-900">
 
