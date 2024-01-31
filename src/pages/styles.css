@@ -4,14 +4,19 @@
 *{
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
 }
 .signup{
    
     width: 100vw;
+    height: max-content;
     display: flex;
     flex-direction: row;
     overflow: hidden;
 
+}
+input{
+    padding-left: 5px;
 }
 .left{
     width: 50vw;
@@ -26,6 +31,7 @@
 
 a{
 color: blue;
+z-index: 9999;
 }
 .right{
     height: auto;
@@ -59,7 +65,7 @@ color: blue;
     position: fixed; 
     top: 5%;
     left: 75%; 
-    z-index: 999;
+   
   }
 .front-img{
     display: flex;
@@ -70,7 +76,7 @@ color: blue;
     
 }
 .right img{
-    height:100%;
+    height:400px;
     width: 100%;
     margin-left: 20vw;
    
@@ -95,8 +101,8 @@ color: blue;
         overflow: hidden;
     }
     #back-btn{
-        position:sticky ;
-        top: 0;
+        position:sticky;
+        /* top: 0; */
     }
     .front-img{
         height: 100%;

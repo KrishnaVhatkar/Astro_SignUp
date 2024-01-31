@@ -1,34 +1,38 @@
 import React, { useState } from "react";
-// import {Link} from 'react-router-dom';
+// import {BrowserRouter,Routes,Route} from 'react-router-dom';
 import { supabase } from "./client";
 import './styles.css';
 import front from './front.jpg';
+import { userSchema } from '../validations/UserValidations';
 import {MdOutlineKeyboardArrowLeft } from 'react-icons/md';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import Login from "./Login";
+import Home from "./Home";
+
+
 const SignUp = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [responseMessage, setResponseMessage] = useState("");
+  const initialValues = {
+    name: "",
+    lname:"",
+    email: "",
+    password: "",
+    confirm_password: "",
+  }
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
+    initialValues: initialValues,
+    validationSchema: userSchema,
+    onSubmit: (values) => {
 
-  const handleSignup = async (e) => {
-    e.preventDefault();
-
-    try {
-      const { error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      setResponseMessage("Check your email for a verification link");
-    } catch (error) {
-      setResponseMessage(error.message);
+      console.log(values);
     }
-  };
+  });
+
+
+ 
 
   return (
+    // <BrowserRouter>
     <div className="signup">
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 left">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
@@ -44,19 +48,25 @@ const SignUp = () => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form onSubmit={handleSignup} className="space-y-6" method="POST">
+        <form onSubmit={handleSubmit} className="space-y-6" method="POST">
           <div>
             <label htmlFor="first-name">First Name</label>
             <div className="mt-2">
 
             <input type="text" name='name' required  
-            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            value={values.name} onChange={handleChange} onBlur={handleBlur}/>
+            {errors.name && touched.name ? <p style={{ 'color': "red" }}>{errors.name}</p> : null}
+
             </div>
             <label htmlFor="last-name">Last Name</label>
             <div className="mt-2">
 
             <input type="text" name='lname' required  
-            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            value={values.lname} onChange={handleChange} onBlur={handleBlur}/>
+            {errors.lname && touched.lname ? <p style={{ 'color': "red" }}>{errors.lname}</p> : null}
+
             </div>
             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
               Email address
@@ -69,8 +79,9 @@ const SignUp = () => {
                 autoComplete="email"
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                onChange={(e) => setEmail(e.target.value)}
+                value={values.email} onChange={handleChange} onBlur={handleBlur} 
               />
+               {errors.email && touched.email ? <p style={{ 'color': "red" }}>{errors.email}</p> : null} 
             </div>
           </div>
 
@@ -92,8 +103,10 @@ const SignUp = () => {
                 autoComplete="current-password"
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                onChange={(e) => setPassword(e.target.value)}
+                value={values.password} onChange={handleChange} onBlur={handleBlur}
               />
+              {errors.password && touched.password ? <p style={{ 'color': "red" }}>{errors.password}</p> : null} 
+
             </div>
           </div>
           <div>
@@ -109,13 +122,15 @@ const SignUp = () => {
             <div className="mt-2">
               <input
                 id="cpassword"
-                name="cpassword"
+                name="confirm_password"
                 type="password"
                
                 required
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                onChange={(e) => setPassword(e.target.value)}
+                value={values.confirm_password} onChange={handleChange} onBlur={handleBlur}
               />
+              {errors.confirm_password && touched.confirm_password ? <p style={{ 'color': "red" }}>{errors.confirm_password}</p> : null}
+
             </div>
           </div>
           <div>
@@ -145,13 +160,16 @@ const SignUp = () => {
               
               
               Have an account?
-              <a href="/login">Sign In</a>
-              
+              <a href="#">Sign In</a>
+              {/* <Routes>
+                <Route path='/login' element={<Login/>}/>
+                <Route path='/' element={<Home/>}/>
+              </Routes> */}
             </div>
             
           </div>
         </form>
-        <p>{responseMessage}</p>
+      
       </div>
     </div>
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 right">
@@ -166,6 +184,8 @@ const SignUp = () => {
     
     </div>
     </div>
+    // </BrowserRouter>
+
   );
 };
 
